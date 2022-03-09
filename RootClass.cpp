@@ -69,9 +69,7 @@ void RootClass::initializeFoldersAndReadPasswordHashes()
         mainDir.mkdir(GlobalVariables::mainFolderPath);
     }
 
-    //qDebug()<<" All Local Dir created ";
-
-
+    //qDebug()<<" Password FilePath:  "<<GlobalVariables::filePathPasswords;
     // ------- Password Hash File
     QByteArray lineByte[4];
     if(QFileInfo::exists(GlobalVariables::filePathPasswords))
@@ -85,14 +83,15 @@ void RootClass::initializeFoldersAndReadPasswordHashes()
                 counter++;
             }
             passwordHashFile->close();
-            if(counter > 0) GlobalVariables::passwordAdminHash=lineByte[0].toUpper();
-            //qDebug()<<"Admin PassHash:"<<GlobalVariables::password_AdminHash;
+            GlobalVariables::passwordAdminHash=lineByte[0].toUpper();
+            //qDebug()<<"Admin PassHash:"<<GlobalVariables::passwordAdminHash;
         } else {
             qDebug()<<" Password File did not opened";
         }
     }
 
 
+    //qDebug()<<" Configuration FilePath:  "<<GlobalVariables::fileConfig;
     // -------  Configuration File
     if(QFileInfo::exists(GlobalVariables::fileConfig))
     {
@@ -101,13 +100,13 @@ void RootClass::initializeFoldersAndReadPasswordHashes()
             int counter = 0;
             while(!passwordHashFile->atEnd()) {
                 lineByte[counter] = passwordHashFile->readLine();
+                //qDebug()<<" lineByte of Config::: "<<lineByte[counter];
                 lineByte[counter].chop(1);
                 counter++;
             }
             passwordHashFile->close();
-            if(counter > 0)
-                GlobalVariables::fileLogPath = lineByte[0];
-            //qDebug()<<"Admin PassHash:"<<GlobalVariables::password_AdminHash;
+            GlobalVariables::fileLogPath = lineByte[0];
+            //qDebug()<<"fileLogPath Path:"<<GlobalVariables::fileLogPath;
         } else {
             qDebug()<<" Password File did not opened";
         }

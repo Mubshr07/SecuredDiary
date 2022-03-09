@@ -19,7 +19,7 @@ ChangePassword::ChangePassword(QWidget *parent) :
     timerSingleShot->start(200);
 
 
-    ui->lblPassWordInput->setValidator(new QIntValidator(0, 9999, this));
+    //ui->lblPassWordInput->setValidator(new QIntValidator(0, 9999, this));
     ui->lblPassWordInput->setFocus();
 }
 ChangePassword::~ChangePassword()
@@ -36,24 +36,11 @@ void ChangePassword::on_passwordPushButtonClear_clicked()
 }
 void ChangePassword::on_passwordPushButtonEnter_clicked()
 {
-    if(ui->lblPassWordInput->text().length() != 4 ){
-        qDebug()<<" input string length is less than 4 ";
-        if(messageWindowIsClose) {
-            messageWindowIsClose = false;
-            messageBoxWindow = new MessageBoxx(this);
-            messageBoxWindow->rxSetMessageBoxParams(ErrorNumber, "Change Password", "You need to enter only number with length 4.", "OK", true, "", false);
-            connect(messageBoxWindow, SIGNAL(txMessageBoxResult(int,bool)), this, SLOT(rxMessageBoxResult(int,bool)));
-            messageBoxWindow->setGeometry(0, 0, this->width(), messageBoxWindow->height());
-            messageBoxWindow->show();
-        }
-        ui->lblPassWordInput->setFocus();
-        return;
-    }
 
     enteredPasswordByteArray.clear();
     enteredPasswordByteArray =  QCryptographicHash::hash(ui->lblPassWordInput->text().toUtf8(), QCryptographicHash::Sha512).toHex().toUpper();
 
-    qDebug()<<" text:"<<ui->lblPassWordInput->text()<<" hash:"<<enteredPasswordByteArray;
+    //qDebug()<<" text:"<<ui->lblPassWordInput->text()<<" hash:"<<enteredPasswordByteArray;
 
     changeGUIAccordingToStates();
 }
@@ -111,7 +98,7 @@ void ChangePassword::rxTimerSingleShotElapsed()
         ui->lblWindowHeading->setText("Change Password");
         break;
     }
-    } // end switch statements
+    } // end switch statements.
 
     ui->passwordPushButtonEnter->setDisabled(false);
     ui->lblPassWordInput->setFocus();
@@ -119,7 +106,6 @@ void ChangePassword::rxTimerSingleShotElapsed()
 
 void ChangePassword::rxMessageBoxResult(int parm, bool yesNoButton)
 {
-    messageWindowIsClose = true;
 }
 
 void ChangePassword::changeGUIAccordingToStates()
@@ -161,15 +147,6 @@ void ChangePassword::changeGUIAccordingToStates()
         else
         {
             //passwordState = PassVerifyOLD;
-            if(messageWindowIsClose) {
-                messageWindowIsClose = false;
-                messageBoxWindow = new MessageBoxx(this);
-                messageBoxWindow->rxSetMessageBoxParams(ErrorNumber, "Change Password Failure", "Confirm new password did not match.", "OK", "background-color:red;color:white;", true, "", "", false);
-                connect(messageBoxWindow, SIGNAL(txMessageBoxResult(int,bool)), this, SLOT(rxMessageBoxResult(int,bool)));
-                messageBoxWindow->setGeometry(0, 0, this->width(), messageBoxWindow->height());
-                messageBoxWindow->show();
-                //emit txShowMessageBox(guiChangePasswordWindow, ErrorNumber, "Change Password Failure", "Confirm new password did not match.", "OK", "background-color:red;color:white;", true, "", "", false);
-            }
             passwordState = PassEnterNew;
             ui->lblPassWordInput->setStyleSheet(styleLabelRed);
             ui->lblPassWordInput->clear();
@@ -200,17 +177,9 @@ void ChangePassword::saveNewHashesAndCloseThisWindow()
     }
     else
     {
-        qDebug()<<" PassWord File did not opened";
+        //qDebug()<<" PassWord File did not opened";
     }
 
-    if(messageWindowIsClose){
-        messageWindowIsClose = false;
-        messageBoxWindow = new MessageBoxx(this);
-        connect(messageBoxWindow, SIGNAL(txMessageBoxResult(int,bool)), this, SLOT(rxMessageBoxResult(int,bool)));
-        messageBoxWindow->rxSetMessageBoxParams(ErrorNumber, "Change Password Success", "Password change successfully.", "OK", true, "", false);
-        messageBoxWindow->setGeometry(0, 0, this->width(), messageBoxWindow->height());
-        messageBoxWindow->show();
-    }
 
     //emit txShowMessageBox(guiChangePasswordWindow, ErrorNumber, "Change Password Success", "Password change successfully.", "OK", true, "", false);
     emit txClosingChangePasswordWindow();

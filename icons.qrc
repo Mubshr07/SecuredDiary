@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/pyramid_ball.ico</file>
+        <file>icons/Letter-B-grey-icon.png</file>
+        <file>icons/Knob-Valid-Green-icon.png</file>
+        <file>icons/Knob-Upload-icon.png</file>
+        <file>icons/Knob-Smart-icon.png</file>
+        <file>icons/Knob-Cancel-icon.png</file>
+        <file>icons/if_Superman_sigil_logo_movie_dc_comics_3151556.png</file>
+        <file>icons/folder-blue-icon.png</file>
+        <file>icons/blueStar.png</file>
+        <file>icons/blueStandby.png</file>
+        <file>icons/blueSmiley3.png</file>
+        <file>icons/blueSmiley2.png</file>
+        <file>icons/blueSmiley1.png</file>
+        <file>icons/bluePlus.png</file>
+        <file>icons/blueInfo2.png</file>
+        <file>icons/application_x_ms_dos_executable (1).ico</file>
+        <file>icons/Letter-B-pink-icon.png</file>
+        <file>icons/yellow_light.png</file>
+        <file>icons/red_light.png</file>
+        <file>icons/green_light.png</file>
+        <file>icons/ball_blue.png</file>
+        <file>icons/Aqua-Stop-icon.png</file>
+        <file>icons/Add-icon.png</file>
+        <file>icons/Downloads-Folder-icon.png</file>
+    </qresource>
+</RCC>

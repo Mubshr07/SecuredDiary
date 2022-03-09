@@ -7,11 +7,8 @@ enum PassChangeState {
     PassConfirmNew
 };
 
-
-
 #include <QDialog>
 #include "../GlobalVariables.h"
-#include "MessageBoxx.h"
 
 namespace Ui {
 class ChangePassword;
@@ -28,7 +25,6 @@ public:
 
 signals:
     void txClosingChangePasswordWindow();
-    void txGenerateGUIModule(GuiSubModules winName);
     void txShowMessageBox(GuiSubModules parentWindow, int parm, QString title, QString msg, QString yesBtnText, bool yesVisible, QString noBtnText, bool noVisible);
     void txShowMessageBox(GuiSubModules parentWindow, int parm, QString title, QString msg, QString yesBtnText, QString yesBtnStyle, bool yesVisible, QString noBtnText, QString noBtnStyle, bool noVisible);
 
@@ -52,8 +48,6 @@ private slots:
 
 private:
     Ui::ChangePassword *ui;
-    MessageBoxx *messageBoxWindow;
-    bool messageWindowIsClose = true;
     QTimer *timerSingleShot;
     int singleShotTimerOperation = 0;
 

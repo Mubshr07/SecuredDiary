@@ -7,7 +7,7 @@ PasswordWindow::PasswordWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     //this->setFixedSize(360 , 500);
-    this->setBaseSize(470 , 230);
+    this->setBaseSize(460 , 230);
 
     this->setWindowFlags(Qt::WindowStaysOnTopHint);
     this->setWindowFlags(Qt::FramelessWindowHint);
@@ -65,7 +65,6 @@ void PasswordWindow::rxTimerSingleShotElapsed()
     }
     case 1: { // correct Password
         emit txGenerateGUIModule(guiMainWindow);
-        emit txClosingPasswordWindow();
         this->hide();
     }
     case 2: { // Wrong PassWord
