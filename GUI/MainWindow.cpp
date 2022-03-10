@@ -152,7 +152,17 @@ void MainWindow::on_newFilePushButton_clicked()
     ui->plainTextEdit->clear();
     ui->plainTextEdit->setFocus();
 }
+void MainWindow::on_ZoomInPushButton_clicked()
+{
+    qDebug()<<" Zoom In";
+    ui->plainTextEdit->zoomIn(2);
+}
+void MainWindow::on_ZoomOutPushButton_clicked()
+{
+    qDebug()<<" Zoom Out";
+    ui->plainTextEdit->zoomOut(3);
 
+}
 
 
 
@@ -160,16 +170,12 @@ void MainWindow::saveCurrentLogIntoFile()
 {
 
     logFile = new QFile(GlobalVariables::fileLogPath);
-    if(logFile->open(QIODevice::WriteOnly))
-    {
+    if(logFile->open(QIODevice::WriteOnly)) {
         QByteArray ba = ui->plainTextEdit->toHtml().toUtf8();
         logFile->write(ba.toBase64());
-
         logFile->close();
         ui->statusbar->showMessage(QString("Data saved in LogFile.: "+GlobalVariables::fileLogPath));
-    }
-    else
-    {
+    } else {
         qDebug()<<" Error in opening report file :: "<<GlobalVariables::fileLogPath;
     }
 
@@ -186,6 +192,7 @@ void MainWindow::saveCurrentLogIntoFile()
 
 
 }
+
 
 
 

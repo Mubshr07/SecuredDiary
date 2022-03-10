@@ -25,6 +25,7 @@ signals:
 
 public slots:
     void rxGenerateGUIModule(GuiSubModules module);
+    void rxClosingPasswordWindow(bool close);
 
 
 

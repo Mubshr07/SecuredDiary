@@ -1,4 +1,5 @@
 #include "RootClass.h"
+#include "QApplication"
 
 RootClass::RootClass(QObject *parent) : QObject(parent)
 {
@@ -19,9 +20,15 @@ RootClass::RootClass(QObject *parent) : QObject(parent)
 
 void RootClass::rxGenerateGUIModule(GuiSubModules module)
 {
-    qDebug()<<"rxGenerateGUIModule::  "<<module;
+    //qDebug()<<"rxGenerateGUIModule::  "<<module;
     needToGenerateThisGUI = module;
     timerGUIGenerator->start(200);
+}
+
+void RootClass::rxClosingPasswordWindow(bool close)
+{
+    qDebug()<<"rxClosingPasswordWindow:: "<<close;
+    if(close) QApplication::quit();
 }
 
 void RootClass::onTimerSingleShotElapsed()
@@ -55,9 +62,8 @@ void RootClass::generateChangePasswordWindow()
 }
 void RootClass::generateMainWindowGUI()
 {
-    qDebug()<<" generateMainWindowGUI() " ;
+    //qDebug()<<" generateMainWindowGUI() " ;
     mainGUI = new MainWindow();
-
     mainGUI->showMaximized();
 }
 

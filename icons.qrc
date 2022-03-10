@@ -24,5 +24,6 @@
         <file>icons/Aqua-Stop-icon.png</file>
         <file>icons/Add-icon.png</file>
         <file>icons/Downloads-Folder-icon.png</file>
+        <file>icons/Button Delete_256.png</file>
     </qresource>
 </RCC>

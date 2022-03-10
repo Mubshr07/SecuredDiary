@@ -19,7 +19,7 @@ GlobalVariables::GlobalVariables(QObject *parent) : QObject(parent)
 
 void GlobalVariables::initializeAllStaticVars()
 {
-    qDebug()<<" Global Initialized ";
+    //qDebug()<<" Global Initialized ";
     GlobalVariables::filePathPasswords = QString(mainFolderPath + "/passwordsAuthentications");
     GlobalVariables::fileLogPath  = QString(mainFolderPath + "/logFile2022");
     GlobalVariables::fileConfig = QString(mainFolderPath + "/Configuration");

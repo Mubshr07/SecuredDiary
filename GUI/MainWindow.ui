@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>749</width>
+    <width>821</width>
     <height>492</height>
    </rect>
   </property>
@@ -44,6 +44,28 @@ p, li { white-space: pre-wrap; }
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="ZoomInPushButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../icons.qrc">
+          <normaloff>:/icons/Add-icon.png</normaloff>:/icons/Add-icon.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="ZoomOutPushButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../icons.qrc">
+          <normaloff>:/icons/Button Delete_256.png</normaloff>:/icons/Button Delete_256.png</iconset>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QComboBox" name="cmbFontSize">
         <item>
@@ -278,7 +300,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>749</width>
+     <width>821</width>
      <height>17</height>
     </rect>
    </property>

@@ -65,6 +65,7 @@ void PasswordWindow::rxTimerSingleShotElapsed()
     }
     case 1: { // correct Password
         emit txGenerateGUIModule(guiMainWindow);
+        emit txClosingPasswordWindow(false);
         this->hide();
     }
     case 2: { // Wrong PassWord
@@ -84,8 +85,9 @@ void PasswordWindow::rxTimerSingleShotElapsed()
 
 void PasswordWindow::on_CancelWindowpushButton_clicked()
 {
-    emit txClosingPasswordWindow();
+    emit txClosingPasswordWindow(true);
     this->hide();
+    this->close();
 }
 
 void PasswordWindow::on_lblPassWord_returnPressed()

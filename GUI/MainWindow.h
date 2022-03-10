@@ -43,6 +43,10 @@ private slots:
 
 
 
+    void on_ZoomInPushButton_clicked();
+
+    void on_ZoomOutPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 

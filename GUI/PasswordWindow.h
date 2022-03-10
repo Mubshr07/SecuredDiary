@@ -18,7 +18,7 @@ public:
     ~PasswordWindow();
 
 signals:
-    void txClosingPasswordWindow();
+    void txClosingPasswordWindow(bool close);
     void txGenerateGUIModule(GuiSubModules module);
 
 
