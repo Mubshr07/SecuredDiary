@@ -64,7 +64,8 @@ void PasswordWindow::rxTimerSingleShotElapsed()
         break;
     }
     case 1: { // correct Password
-        emit txGenerateGUIModule(guiMainWindow);
+        //emit txGenerateGUIModule(guiMainWindow);
+        emit txGenerateGUIModule(guiInsertNew);
         emit txClosingPasswordWindow(false);
         this->hide();
     }

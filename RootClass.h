@@ -10,6 +10,7 @@
 #include "GlobalVariables.h"
 
 #include "GUI/ChangePassword.h"
+#include "GUI/InsertNew.h"
 #include "GUI/MainWindow.h"
 #include "GUI/MessageBoxx.h"
 #include "GUI/PasswordWindow.h"
@@ -25,7 +26,8 @@ signals:
 
 public slots:
     void rxGenerateGUIModule(GuiSubModules module);
-    void rxClosingPasswordWindow(bool close);
+    void rxClosingPasswordWindow(bool close);    
+    void rxCloseInsertNew();
 
 
 
@@ -36,6 +38,7 @@ public slots:
 private:
     ChangePassword *changePasswordWindow;
     MainWindow *mainGUI;
+    InsertNew *insertNewWindow;
     MessageBoxx *messageBoxWindow;
     PasswordWindow *passwordAuthentication;
 
@@ -46,6 +49,7 @@ private:
 
 
     void generatePasswordAuthenticationWindow();
+    void generateInsertNewWindow();
     void generateChangePasswordWindow();
     void generateMainWindowGUI();
 

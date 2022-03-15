@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     GUI/ChangePassword.cpp \
+    GUI/InsertNew.cpp \
     GUI/MessageBoxx.cpp \
     GUI/PasswordWindow.cpp \
     GlobalVariables.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 
 HEADERS += \
     GUI/ChangePassword.h \
+    GUI/InsertNew.h \
     GUI/MessageBoxx.h \
     GUI/PasswordWindow.h \
     GlobalVariables.h \
@@ -34,6 +36,7 @@ HEADERS += \
 
 FORMS += \
     GUI/ChangePassword.ui \
+    GUI/InsertNew.ui \
     GUI/MainWindow.ui \
     GUI/MessageBoxx.ui \
     GUI/PasswordWindow.ui

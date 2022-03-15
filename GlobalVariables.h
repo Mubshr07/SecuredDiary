@@ -9,6 +9,7 @@ enum GuiSubModules{
     guiChangePassword,
     guiMainWindow,
     guiMessageBoxx,
+    guiInsertNew,
     guiPasswordWindow
 };
 

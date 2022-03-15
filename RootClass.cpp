@@ -41,6 +41,7 @@ void RootClass::onTimerGUIGeneratorElapsed()
     case  guiNULL: break;
     case guiChangePassword: generateChangePasswordWindow(); break;
     case guiMainWindow: generateMainWindowGUI(); break;
+    case guiInsertNew: generateInsertNewWindow(); break;
     case guiMessageBoxx: break;
     case guiPasswordWindow: generatePasswordAuthenticationWindow(); break;
 
@@ -55,6 +56,15 @@ void RootClass::generatePasswordAuthenticationWindow()
     passwordAuthentication = new PasswordWindow();
     connect(passwordAuthentication, SIGNAL(txGenerateGUIModule(GuiSubModules)), this, SLOT(rxGenerateGUIModule(GuiSubModules)));
     passwordAuthentication->show();
+}
+void RootClass::generateInsertNewWindow()
+{
+    insertNewWindow = new InsertNew();
+    connect(insertNewWindow, SIGNAL(txGenerateGUIModule(GuiSubModules)), this, SLOT(rxGenerateGUIModule(GuiSubModules)));
+    connect(insertNewWindow, SIGNAL(txCloseInsertNew()), this, SLOT(rxCloseInsertNew()));
+
+    insertNewWindow->showFullScreen();
+
 }
 void RootClass::generateChangePasswordWindow()
 {
@@ -121,3 +131,9 @@ void RootClass::initializeFoldersAndReadPasswordHashes()
 
 
 
+
+void RootClass::rxCloseInsertNew()
+{
+    insertNewWindow->hide();
+    QApplication::quit();
+}
