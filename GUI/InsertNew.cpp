@@ -105,9 +105,11 @@ void InsertNew::onTimerSingleShotElapsed()
             logCounter = dateVector.length()-1;
 
             ui->lblLoadedDate->setText(QString(dateVector.at(logCounter)));
-
             ui->plainTextEdit->setHtml(logStrVector.at(logCounter));
             ui->plainTextEdit->setFocus();
+            if(ui->lblTodayDateDay->text() == ui->lblLoadedDate->text()){
+                ui->NewLogPushButton->hide();
+            }
 
             abc.close();
         }
@@ -130,20 +132,29 @@ void InsertNew::on_SaveClosePushButton_clicked()
 void InsertNew::on_loadPushButton_clicked()
 {
     //qDebug()<<" FileDialog :: "<<GlobalVariables::mainFolderPath;
-    /*
-    GlobalVariables::fileLogPath = QFileDialog::getOpenFileName(this, "Select File", GlobalVariables::mainFolderPath);
+    QString file = QFileDialog::getOpenFileName(this, "Select File", GlobalVariables::mainFolderPath);
     //qDebug()<<"Opening Report File : "<<GlobalVariables::fileLogPath;
-    QFile abc(GlobalVariables::fileLogPath);
-    if(abc.open(QIODevice::ReadOnly))
-    {
-        QByteArray ba = QByteArray::fromBase64(abc.readAll());
+    QByteArray ba;
+    ba.clear();
+    QFile abc(file);
+    if(abc.open(QIODevice::ReadOnly)) {
+        ba = QByteArray::fromBase64(abc.readAll());
+        ba.replace(seperatorDateBytes, "<br>");
+        ba.replace(seperatorLogBytes, "<br> ************************* <br><br>");
+        qDebug()<<" \n\n\n Loaded File Text:: \n"<<QString(ba)<<"\n\n";
         ui->plainTextEdit->setHtml(ba);
         abc.close();
     }
-    ui->statusbar->showMessage(QString("loaded file: "+GlobalVariables::fileLogPath));
+    ui->statusbar->showMessage(QString("loaded file: "+file));
 
-    */
-    emit txGenerateGUIModule(guiMainWindow);
+
+
+
+
+
+
+
+
 }
 void InsertNew::on_boldPushButton_clicked()
 {
@@ -241,7 +252,15 @@ void InsertNew::on_ZoomOutPushButton_clicked()
     ui->plainTextEdit->setFocus();
 
 }
-
+void InsertNew::on_NewLogPushButton_clicked()
+{
+    if(ui->lblTodayDateDay->text() != ui->lblLoadedDate->text()){
+        ui->lblLoadedDate->setText(ui->lblTodayDateDay->text());
+        ui->plainTextEdit->clear();
+        ui->plainTextEdit->append("\t\t");
+        ui->NewLogPushButton->hide();
+    }
+}
 
 
 void InsertNew::saveCurrentLogIntoFile()
@@ -294,8 +313,6 @@ void InsertNew::saveCurrentLogIntoFile()
 
 
 }
-
-
 
 
 

@@ -90,7 +90,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>New File</string>
+         <string>Set New File</string>
         </property>
         <property name="icon">
          <iconset resource="../icons.qrc">
@@ -337,6 +337,13 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="NewLogPushButton">
+        <property name="text">
+         <string>New</string>
+        </property>
+       </widget>
       </item>
       <item>
        <spacer name="horizontalSpacer">

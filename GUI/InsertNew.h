@@ -39,12 +39,11 @@ private slots:
     void on_onlyClosePushButton_clicked();
     void on_endOfLinePushButton_clicked();
     void on_changePasswordPushButton_clicked();
-
-
-
     void on_ZoomInPushButton_clicked();
-
     void on_ZoomOutPushButton_clicked();
+    void on_NewLogPushButton_clicked();
+
+
 
 private:
     Ui::InsertNew *ui;
