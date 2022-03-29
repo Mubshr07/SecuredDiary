@@ -134,6 +134,5 @@ void RootClass::initializeFoldersAndReadPasswordHashes()
 
 void RootClass::rxCloseInsertNew()
 {
-    insertNewWindow->hide();
     QApplication::quit();
 }

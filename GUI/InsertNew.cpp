@@ -46,7 +46,6 @@ void InsertNew::onTimerSingleShotElapsed()
         if(abc.open(QIODevice::ReadOnly)) {
 
             QByteArray ba = QByteArray::fromBase64(abc.readAll());
-
             /*
             qDebug()<<" 8*********************** ";
             qDebug()<<" Whole FIle: "<<abc.readAll();
@@ -91,8 +90,9 @@ void InsertNew::onTimerSingleShotElapsed()
                 qDebug()<<"**************************************";
                 qDebug()<<" Log Bytes :: "<<logBytes<<"\n\n logSeperator ::"<<seperatorLogBytes<<"\n\n";
                 qDebug()<<" Log Length :: "<<logBytes.length()<<" logSeperatorLength ::"<<seperatorLogBytes.length()<<"\n\n";
-                qDebug()<<" -*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-* ";
+                qDebug()<<" -*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-* \n\n\n";
                 */
+
 
                 singleLogBytes = logBytes;
                 dateVector.append(singleDateStr);
@@ -111,6 +111,7 @@ void InsertNew::onTimerSingleShotElapsed()
                 ui->NewLogPushButton->hide();
             }
 
+            ui->lblCurrentIndexWithTotalRecords->setText(QString::number(logCounter)+"/"+QString::number(logStrVector.length()-1));
             abc.close();
         }
         ui->statusbar->showMessage(QString("loaded Previous file: "+GlobalVariables::fileLogPath));
@@ -126,6 +127,7 @@ void InsertNew::on_SavePushButton_clicked()
 void InsertNew::on_SaveClosePushButton_clicked()
 {
     saveCurrentLogIntoFile();
+    this->close();
     emit txCloseInsertNew();
 
 }
@@ -146,15 +148,7 @@ void InsertNew::on_loadPushButton_clicked()
         abc.close();
     }
     ui->statusbar->showMessage(QString("loaded file: "+file));
-
-
-
-
-
-
-
-
-
+    ui->frameNewLogControl->setHidden(true);
 }
 void InsertNew::on_boldPushButton_clicked()
 {
@@ -162,7 +156,7 @@ void InsertNew::on_boldPushButton_clicked()
     ui->boldPushButton->setText(QString(localBoldBoolean? "Bold On" : "Bold Off"));
 
     ui->plainTextEdit->setFontWeight((localBoldBoolean? QFont::ExtraBold : QFont::Normal));
-ui->plainTextEdit->setFocus();
+    ui->plainTextEdit->setFocus();
 }
 void InsertNew::on_boldTextIconPushButton_clicked()
 {
@@ -202,7 +196,7 @@ void InsertNew::on_cmbFontSize_currentIndexChanged(int index)
 void InsertNew::on_endOfLinePushButton_clicked()
 {
     ui->plainTextEdit->append("--------------------------------------------\n");
-ui->plainTextEdit->setFocus();
+    ui->plainTextEdit->setFocus();
 }
 void InsertNew::on_changePasswordPushButton_clicked()
 {
@@ -221,6 +215,12 @@ void InsertNew::on_newFilePushButton_clicked()
     //QString filePath = QFileDialog::getOpenFileName(this, "Select Report File", GlobalVariables::mainFolderPath);
     GlobalVariables::fileLogPath = QFileDialog::getSaveFileName(this, "New File Name", GlobalVariables::mainFolderPath);
     ui->statusbar->showMessage(QString("New File name set: "+ GlobalVariables::fileLogPath ));
+
+    dateVector.clear();
+    logStrVector.clear();
+    ui->NewLogPushButton->hide();
+    ui->deleteThisLogPushButton->hide();
+    ui->lblLoadedDate->setText(ui->lblTodayDateDay->text());
     ui->plainTextEdit->clear();
     ui->plainTextEdit->setFocus();
 }
@@ -237,6 +237,7 @@ void InsertNew::on_ZoomInPushButton_clicked()
     ui->plainTextEdit->setHtml(logStrVector.at(logCounter));
     ui->plainTextEdit->setFocus();
 
+    ui->lblCurrentIndexWithTotalRecords->setText(QString::number(logCounter)+"/"+QString::number(logStrVector.length()-1));
 }
 void InsertNew::on_ZoomOutPushButton_clicked()
 {
@@ -250,6 +251,7 @@ void InsertNew::on_ZoomOutPushButton_clicked()
     ui->lblLoadedDate->setText(QString(dateVector.at(logCounter)));
     ui->plainTextEdit->setHtml(logStrVector.at(logCounter));
     ui->plainTextEdit->setFocus();
+    ui->lblCurrentIndexWithTotalRecords->setText(QString::number(logCounter)+"/"+QString::number(logStrVector.length()-1));
 
 }
 void InsertNew::on_NewLogPushButton_clicked()
@@ -259,47 +261,79 @@ void InsertNew::on_NewLogPushButton_clicked()
         ui->plainTextEdit->clear();
         ui->plainTextEdit->append("\t\t");
         ui->NewLogPushButton->hide();
+        ui->deleteThisLogPushButton->hide();
+        ui->plainTextEdit->setFocus();
     }
 }
+void InsertNew::on_deleteThisLogPushButton_clicked()
+{
+    dateVector.remove(logCounter);
+    logStrVector.remove(logCounter);
+    logFile = new QFile(GlobalVariables::fileLogPath);
+    QByteArray ba = "";
+    if(logFile->open(QIODevice::WriteOnly)) {
+        ba.clear();
+        for(int i=0; i<dateVector.length(); i++) {
+            ba += dateVector.at(i);
+            ba += seperatorDateBytes;
+            ba += logStrVector.at(i);
+            ba += seperatorLogBytes;
+        }
+        logFile->write(ba.toBase64());
+        logFile->close();
+        ui->statusbar->showMessage(QString("Data saved in LogFile.: "+GlobalVariables::fileLogPath));
+    } else {
+        qDebug()<<" Error in opening report file :: "<<GlobalVariables::fileLogPath;
+    }
+    ui->lblLoadedDate->setText("");
+    dateVector.clear();
+    logStrVector.clear();
+
+    timerSingleShot->start(200);
+
+}
+
+
 
 
 void InsertNew::saveCurrentLogIntoFile()
 {
-    logFile = new QFile(GlobalVariables::fileLogPath);
-
     if(dateVector.contains(ui->lblLoadedDate->text())){
-        int indexOfCurrentDate = dateVector.indexOf(ui->lblLoadedDate->text());
-        logStrVector[indexOfCurrentDate] = ui->plainTextEdit->toHtml().toUtf8();
-
-        QByteArray ba = "";
-        if(logFile->open(QIODevice::WriteOnly)) {
-            ba.clear();
-            for(int i=0; i<dateVector.length(); i++) {
-                ba += dateVector.at(i);
-                ba += seperatorDateBytes;
-                ba += logStrVector.at(i);
-                ba += seperatorLogBytes;
-            }
-            logFile->write(ba.toBase64());
-            logFile->close();
-            ui->statusbar->showMessage(QString("Data saved in LogFile.: "+GlobalVariables::fileLogPath));
-        } else {
-            qDebug()<<" Error in opening report file :: "<<GlobalVariables::fileLogPath;
-        }
+        int idx = dateVector.indexOf(ui->lblLoadedDate->text());
+        logStrVector.replace(idx, ui->plainTextEdit->toHtml());
     } else {
-        if(logFile->open(QIODevice::Append)) {
-            QByteArray ba = ui->lblTodayDateDay->text().toUtf8();
-            ba += seperatorDateBytes;
-            ba += ui->plainTextEdit->toHtml().toUtf8();
-            ba += seperatorLogBytes;
-            //qDebug()<<"String :: "<<ba;
-            logFile->write(ba.toBase64());
-            logFile->close();
-            ui->statusbar->showMessage(QString("Data saved in LogFile.: "+GlobalVariables::fileLogPath));
-        } else {
-            qDebug()<<" Error in opening report file :: "<<GlobalVariables::fileLogPath;
-        }
+        dateVector.append(ui->lblLoadedDate->text());
+        logStrVector.append(ui->plainTextEdit->toHtml());
     }
+
+
+    logFile = new QFile(GlobalVariables::fileLogPath);
+    if(logFile->open(QIODevice::WriteOnly)) {
+        QByteArray ba = "\n\n";
+        //qDebug()<<" Parsing Today Date for New Log is : "<<ba;
+            ba.clear();
+
+
+        for(int i=0; i<dateVector.length(); i++) {
+            ba += dateVector.at(i);
+            ba += seperatorDateBytes;
+            ba += logStrVector.at(i);
+            ba += seperatorLogBytes;
+        }
+
+
+
+        qDebug()<<"String :: "<<ba;
+        qDebug()<<"\n\n\n File Write return "<<logFile->write(ba.toBase64());
+        qDebug()<<"\n\n\n";
+        logFile->close();
+        ui->statusbar->showMessage(QString("Data saved in LogFile.: "+GlobalVariables::fileLogPath));
+    } else {
+        qDebug()<<" Error in opening report file :: "<<GlobalVariables::fileLogPath;
+        ui->statusbar->showMessage(QString("Error in opening LogFile.: "+GlobalVariables::fileLogPath));
+    }
+    logFile->close();
+
 
     // ----------- Configurations --------------------
     QString str = GlobalVariables::fileLogPath+"\n";
@@ -313,6 +347,5 @@ void InsertNew::saveCurrentLogIntoFile()
 
 
 }
-
 
 

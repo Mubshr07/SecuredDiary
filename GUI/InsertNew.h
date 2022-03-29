@@ -45,6 +45,8 @@ private slots:
 
 
 
+    void on_deleteThisLogPushButton_clicked();
+
 private:
     Ui::InsertNew *ui;
 
