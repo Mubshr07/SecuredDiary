@@ -47,6 +47,10 @@ private slots:
 
     void on_deleteThisLogPushButton_clicked();
 
+    void on_pbChangePassword_clicked();
+
+    void on_plainTextEdit_textChanged();
+
 private:
     Ui::InsertNew *ui;
 

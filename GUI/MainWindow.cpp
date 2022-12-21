@@ -141,7 +141,6 @@ void MainWindow::on_changePasswordPushButton_clicked()
         changePass->setModal(true);
         changePass->show();
     }
-
 }
 void MainWindow::on_newFilePushButton_clicked()
 {

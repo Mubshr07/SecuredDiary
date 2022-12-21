@@ -46,6 +46,7 @@ void InsertNew::onTimerSingleShotElapsed()
         if(abc.open(QIODevice::ReadOnly)) {
 
             QByteArray ba = QByteArray::fromBase64(abc.readAll());
+
             /*
             qDebug()<<" 8*********************** ";
             qDebug()<<" Whole FIle: "<<abc.readAll();
@@ -64,8 +65,10 @@ void InsertNew::onTimerSingleShotElapsed()
             //qDebug()<<"\n\n indx:: "<<endIndex;
             if(endIndex < 0) {
                 // not found
-                ui->plainTextEdit->setText("Wrong File, This file is not in correct format ");
+                ui->plainTextEdit->setText("Wrong File, This file is not in correct format: "+GlobalVariables::fileLogPath);
                 ui->plainTextEdit->setFocus();
+                dateVector.clear();
+                logStrVector.clear();
                 return;
             }
 
@@ -321,11 +324,13 @@ void InsertNew::saveCurrentLogIntoFile()
             ba += seperatorLogBytes;
         }
 
-
-
+        /*
         qDebug()<<"String :: "<<ba;
-        qDebug()<<"\n\n\n File Write return "<<logFile->write(ba.toBase64());
         qDebug()<<"\n\n\n";
+        */
+
+        logFile->write(ba.toBase64());
+
         logFile->close();
         ui->statusbar->showMessage(QString("Data saved in LogFile.: "+GlobalVariables::fileLogPath));
     } else {
@@ -349,3 +354,21 @@ void InsertNew::saveCurrentLogIntoFile()
 }
 
 
+void InsertNew::on_pbChangePassword_clicked()
+{
+    changePass = new ChangePassword(this);
+    changePass->exec();
+}
+void InsertNew::on_plainTextEdit_textChanged()
+{
+    QString strr = ui->plainTextEdit->toPlainText();
+    QStringList totalWords = strr.split(" ");
+    QStringList totalSentences = strr.split(".");
+    int totalChars = strr.remove(" ").size();
+
+    QString output = QString("\t Chars:"+QString::number(totalChars, 10));
+    output += QString("     Words:"+QString::number(totalWords.size()-1, 10));
+    output += QString("     Sentences:"+QString::number(totalSentences.size()-1, 10));
+
+    ui->statusbar->showMessage(output, 5000);
+}
