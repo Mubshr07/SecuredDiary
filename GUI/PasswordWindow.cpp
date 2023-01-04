@@ -68,6 +68,8 @@ void PasswordWindow::rxTimerSingleShotElapsed()
         emit txGenerateGUIModule(guiInsertNew);
         emit txClosingPasswordWindow(false);
         this->hide();
+        singleShotTimerOperation = 15179;
+        timerSingleShot->start(300);
     }
     case 2: { // Wrong PassWord
         ui->lblPassWord->clear();
@@ -76,6 +78,10 @@ void PasswordWindow::rxTimerSingleShotElapsed()
     }
     case 3: { // Error in Parsing
         qDebug()<<" Error in Parsing.";
+        break;
+    }
+    case 15179: { // Closing event
+        this->close();
         break;
     }
 

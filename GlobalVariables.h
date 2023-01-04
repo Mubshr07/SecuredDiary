@@ -40,6 +40,12 @@ enum GuiSubModules{
 #include <QProcess>
 #include <QPalette>
 
+#include <QEvent>
+#include <QKeyEvent>
+#include <QEnterEvent>
+#include <QDragMoveEvent>
+#include <QPoint>
+#include <QPointF>
 #include <QMap>
 #include <QPrinter>
 #include <QPaintDevice>

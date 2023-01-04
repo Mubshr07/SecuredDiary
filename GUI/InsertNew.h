@@ -17,6 +17,9 @@ public:
     InsertNew(QWidget *parent = nullptr);
     ~InsertNew();
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+
 signals:
     void txCloseInsertNew();
     void txGenerateGUIModule(GuiSubModules module);
@@ -68,6 +71,11 @@ private:
     QVector<QString> dateVector;
     QVector<QString> logStrVector;
 
+
+    bool mouseButonPressed = false;
+    QPoint clickPoint, releasePoint;
+    QPointF screenPoint, guiLeftTopCorner;
+    void KeyBoardKeyEvent(QKeyEvent *event);
 
     QFont localFont;
     bool localBoldBoolean = false;

@@ -7,11 +7,9 @@ InsertNew::InsertNew(QWidget *parent)
 {
     ui->setupUi(this);
 
-
     this->setWindowFlags(Qt::FramelessWindowHint);
-    this->setWindowFlags(Qt::WindowStaysOnTopHint);
-    this->setWindowState(Qt::WindowFullScreen);
-
+    //this->setWindowFlags(Qt::WindowStaysOnTopHint);
+    //this->setWindowState(Qt::WindowFullScreen);
 
     ui->plainTextEdit->setEnabled(true);
     ui->plainTextEdit->setReadOnly(false);
@@ -23,12 +21,13 @@ InsertNew::InsertNew(QWidget *parent)
     timerSingleShot->setSingleShot(true);
     timerSingleShot->start(200);
 
-
     ui->lblTodayDateDay->setText(QString(QDate::currentDate().toString("dd:MMMM:yy")+" "+QDate::currentDate().toString("dddd")));
     ui->lblLoadedDate->setText(QString(QDate::currentDate().toString("dd:MMMM:yy")+" "+QDate::currentDate().toString("dddd")));
 
     dateVector.clear();
     logStrVector.clear();
+
+    this->installEventFilter(this);
 
 }
 
@@ -36,6 +35,103 @@ InsertNew::~InsertNew()
 {
     delete ui;
 }
+
+bool InsertNew::eventFilter(QObject *obj, QEvent *event)
+{
+    //qDebug()<<"Mouse Button Press:: "<<event->type();
+
+    if(event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *mouse = static_cast<QMouseEvent*>(event);
+        clickPoint = (mouse->pos());
+        screenPoint = (mouse->screenPos());
+        guiLeftTopCorner.setX(this->geometry().x());
+        guiLeftTopCorner.setY(this->geometry().y());
+        if(mouse->buttons() == Qt::LeftButton){
+            mouseButonPressed = true;
+            //qDebug()<<""
+        }
+    }
+    else if(event->type() == QEvent::MouseButtonRelease){
+        mouseButonPressed = false;
+    }
+    else if(event->type() == QEvent::MouseMove){
+        if(mouseButonPressed){
+            //qDebug()<<"Mouse Button Press and Dragged:: "<<event->type();
+            QMouseEvent *mouse = static_cast<QMouseEvent*>(event);
+            releasePoint = mouse->pos();
+            int newGUIx = ((guiLeftTopCorner.x()-clickPoint.x())+releasePoint.x());
+            int newGUIy = ((guiLeftTopCorner.y()-clickPoint.y())+releasePoint.y());
+            //qDebug()<<"Click:"<<clickPoint<<" screenClick:"<<screenPoint<<" release:"<<releasePoint<<" oldGUIPoint:"<<guiLeftTopCorner<<" newGUIPoint:"<<QPoint(newGUIx, newGUIy);
+            this->setGeometry(newGUIx, newGUIy, this->geometry().width(), this->geometry().height());
+
+            guiLeftTopCorner.setX(this->geometry().x());
+            guiLeftTopCorner.setY(this->geometry().y());
+
+        }
+    }
+
+    else if(event->type() == QEvent::KeyPress){
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        //qDebug()<<"Key Pressed: "<<keyEvent->key()<<" text:"<<keyEvent->text();
+        KeyBoardKeyEvent(keyEvent);
+        return true;
+    }
+    return QObject::eventFilter(obj, event);
+}
+void InsertNew::KeyBoardKeyEvent(QKeyEvent *event)
+{
+
+    switch (event->key()) {
+    case Qt::Key_Escape: ui->lblTextValue->setText("Escape"); break;
+    case Qt::Key_F1: ui->lblTextValue->setText("F1 Key"); break;
+    case Qt::Key_F2: ui->lblTextValue->setText("F2 Key"); break;
+    case Qt::Key_F3: ui->lblTextValue->setText("F3 Key"); break;
+    case Qt::Key_F4: ui->lblTextValue->setText("F4 Key"); break;
+    case Qt::Key_F5: ui->lblTextValue->setText("F5 Key"); break;
+    case Qt::Key_F6: ui->lblTextValue->setText("F6 Key"); break;
+    case Qt::Key_F7: ui->lblTextValue->setText("F7 Key"); break;
+    case Qt::Key_F8: ui->lblTextValue->setText("F8 Key"); break;
+    case Qt::Key_F9: ui->lblTextValue->setText("F9 Key"); break;
+    case Qt::Key_F10: ui->lblTextValue->setText("F10 Key"); break;
+    case Qt::Key_F11: ui->lblTextValue->setText("F11 Key"); break;
+    case Qt::Key_F12: ui->lblTextValue->setText("F12 Key"); break;
+
+    case Qt::Key_Print: ui->lblTextValue->setText("Print"); break;
+    case Qt::Key_Insert: ui->lblTextValue->setText("Insert"); break;
+    case Qt::Key_Home: ui->lblTextValue->setText("Home"); break;
+    case Qt::Key_PageUp: ui->lblTextValue->setText("PageUp"); break;
+    case Qt::Key_PageDown: ui->lblTextValue->setText("PageDown"); break;
+    case Qt::Key_Delete: ui->lblTextValue->setText("Delete"); break;
+    case Qt::Key_End: ui->lblTextValue->setText("End"); break;
+    case Qt::Key_division: ui->lblTextValue->setText("Divide"); break;
+    case Qt::Key_multiply: ui->lblTextValue->setText("Multiply"); break;
+    case Qt::Key_Minus: ui->lblTextValue->setText("Minus"); break;
+    case Qt::Key_Plus: ui->lblTextValue->setText("Plus"); break;
+
+    case Qt::Key_Backspace: ui->lblTextValue->setText("BackSpace"); break;
+    case Qt::Key_Enter: ui->lblTextValue->setText("Enter"); break;
+    case Qt::Key_Shift: ui->lblTextValue->setText("Shift"); break;
+    case Qt::Key_Control: ui->lblTextValue->setText("Control"); break;
+    case Qt::Key_CapsLock: ui->lblTextValue->setText("CapsLock"); break;
+    case Qt::Key_Tab: ui->lblTextValue->setText("Tab"); break;
+    case Qt::Key_BraceLeft: ui->lblTextValue->setText("Brace Left"); break;
+    case Qt::Key_BraceRight: ui->lblTextValue->setText("Brace Right"); break;
+    case Qt::Key_BracketLeft: ui->lblTextValue->setText("Bracket Left"); break;
+    case Qt::Key_BracketRight: ui->lblTextValue->setText("Bracket Right"); break;
+
+    case Qt::Key_Space: ui->lblTextValue->setText("Space"); break;
+    case Qt::Key_Period: ui->lblTextValue->setText("FullStop Period"); break;
+    case Qt::Key_NumLock: ui->lblTextValue->setText("NumLock"); break;
+    case Qt::Key_Slash: ui->lblTextValue->setText("Slash"); break;
+    case Qt::Key_Alt: ui->lblTextValue->setText("Alt Key"); break;
+
+    default: ui->lblTextValue->setText(event->text());
+
+    }
+}
+
+
+
 
 
 void InsertNew::onTimerSingleShotElapsed()

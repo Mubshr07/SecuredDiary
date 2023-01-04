@@ -5,15 +5,16 @@ RootClass::RootClass(QObject *parent) : QObject(parent)
 {
     GlobalVariables::initializeAllStaticVars();
     initializeFoldersAndReadPasswordHashes();
+
     timerSingleShot = new QTimer(this);
-    connect(timerSingleShot, SIGNAL(timeout()), this, SLOT(onTimerSingleShotElapsed()));
     timerSingleShot->setSingleShot(true);
+    connect(timerSingleShot, SIGNAL(timeout()), this, SLOT(onTimerSingleShotElapsed()));
     timerSingleShot->start(200);
 
 
     timerGUIGenerator = new QTimer(this);
-    connect(timerGUIGenerator, SIGNAL(timeout()), this, SLOT(onTimerGUIGeneratorElapsed()));
     timerGUIGenerator->setSingleShot(true);
+    connect(timerGUIGenerator, SIGNAL(timeout()), this, SLOT(onTimerGUIGeneratorElapsed()));
 
 
 }
@@ -63,7 +64,7 @@ void RootClass::generateInsertNewWindow()
     connect(insertNewWindow, SIGNAL(txGenerateGUIModule(GuiSubModules)), this, SLOT(rxGenerateGUIModule(GuiSubModules)));
     connect(insertNewWindow, SIGNAL(txCloseInsertNew()), this, SLOT(rxCloseInsertNew()));
 
-    insertNewWindow->showFullScreen();
+    insertNewWindow->show();
 
 }
 void RootClass::generateChangePasswordWindow()
