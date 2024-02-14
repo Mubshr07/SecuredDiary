@@ -32,7 +32,7 @@ enum GuiSubModules{
 #include <QReadWriteLock>
 #include <QCryptographicHash>
 #include <QIntValidator>
-#include <sys/mman.h>
+
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -56,7 +56,7 @@ enum GuiSubModules{
 
 #include "math.h"
 #include "qmath.h"
-#include <sys/mman.h>
+
 #include <QPixmap>
 
 #include "qdebug.h"

@@ -373,9 +373,9 @@ void InsertNew::on_deleteThisLogPushButton_clicked()
     if(logFile->open(QIODevice::WriteOnly)) {
         ba.clear();
         for(int i=0; i<dateVector.length(); i++) {
-            ba += dateVector.at(i);
+            ba += dateVector.at(i).toUtf8();
             ba += seperatorDateBytes;
-            ba += logStrVector.at(i);
+            ba += logStrVector.at(i).toUtf8();
             ba += seperatorLogBytes;
         }
         logFile->write(ba.toBase64());
@@ -414,9 +414,9 @@ void InsertNew::saveCurrentLogIntoFile()
 
 
         for(int i=0; i<dateVector.length(); i++) {
-            ba += dateVector.at(i);
+            ba += dateVector.at(i).toUtf8();
             ba += seperatorDateBytes;
-            ba += logStrVector.at(i);
+            ba += logStrVector.at(i).toUtf8();
             ba += seperatorLogBytes;
         }
 
